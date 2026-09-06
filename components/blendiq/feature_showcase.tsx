@@ -159,7 +159,7 @@ export default function FeatureShowcaseCard() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-6">
+    <div className="mx-auto w-full max-w-5xl">
       <div className="overflow-hidden rounded-[2rem] border border-zinc-200 bg-white shadow-2xl shadow-zinc-200/70 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-black/30">
         <div className="border-b border-zinc-200 bg-zinc-50/80 p-3 dark:border-zinc-800 dark:bg-zinc-900/60">
           <div className="flex gap-2 overflow-x-auto pb-1">

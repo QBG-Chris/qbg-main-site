@@ -45,13 +45,6 @@ export default function BlendIqPage() {
               </Button>
             </div>
           </div>
-          <Image 
-            src={`https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/blendiq/header-vault.png`}
-            alt=""
-            width={450}
-            height={700}
-            className="mt-16"
-          />
         </div>
       </section>
 

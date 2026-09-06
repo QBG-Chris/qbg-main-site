@@ -14,7 +14,7 @@ export default function ClientSmsConfiguration({
   reminderLeadDays = 2,
 }: ClientSmsConfigurationProps) {
   return (
-    <div className="mx-auto w-full max-w-5xl px-6">
+    <div className="mx-auto w-full max-w-5xl">
       <div className="mx-auto max-w-5xl rounded-3xl justify-center border border-zinc-200 bg-white p-6 shadow-2xl shadow-zinc-200/70 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-black/30">
         <div className="flex flex-col mb-6 items-center">
           <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
