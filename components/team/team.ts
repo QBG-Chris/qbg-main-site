@@ -10,15 +10,6 @@ export type TeamMember = {
 
 export const team: TeamMember[] = [
   {
-    name: "Lyn White",
-    team: "Beauty Ambassadors",
-    title: "Co-Founder & Education Director",
-    img: "https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/headshots/Lyn_Headshot3.png",
-    slug: "lyn",
-    bio: "Hello Friends! I’m Lyn and I’m so blessed I have this opportunity to provide you with all things skincare, beauty, and anything glitz and glam to help you grow the self confidence that you want for this industry!\n\nBeauty will forever and always have my heart and I cannot wait to see all of the learning moments we have together! We are so lucky to have you here!",
-    education: ["Licensed Cosmetologist", "Licensed Esthetician ", "Licensed Beauty Culture Educator", "The Salon Professional Academy - Graduate"]
-  },
-  {
     name: "Amanda Dowell",
     team: "Beauty Ambassadors",
     title: "CEO & Education Director",
@@ -26,6 +17,15 @@ export const team: TeamMember[] = [
     slug: "amanda",
     bio: "Hey Hey, Friends! I’m Amanda and I’m so grateful that the many haircuts my Barbies endured were worth it! My heart fell for the beauty industry at an early age and my passion has been growing ever since.\n\nThis industry is full of opportunities that are inspiring to everyone and being able to witness learning moments in people that share the same goal as you is adrenalizing! So thankful you’re here!",
     education: ["Redken Artist", "Redken Color Certified", "Licensed Cosmetologist", "Licensed Beauty Culture Educator", "The Salon Professional Academy - Graduate", "Licensed Stylist Since 2019"]
+  },
+  {
+    name: "Lyn White",
+    team: "Beauty Ambassadors",
+    title: "Co-Founder & Education Director",
+    img: "https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/headshots/Lyn_Headshot3.png",
+    slug: "lyn",
+    bio: "Hello Friends! I’m Lyn and I’m so blessed I have this opportunity to provide you with all things skincare, beauty, and anything glitz and glam to help you grow the self confidence that you want for this industry!\n\nBeauty will forever and always have my heart and I cannot wait to see all of the learning moments we have together! We are so lucky to have you here!",
+    education: ["Licensed Cosmetologist", "Licensed Esthetician ", "Licensed Beauty Culture Educator", "The Salon Professional Academy - Graduate"]
   },
   {
     name: "LaDonna Minnis",

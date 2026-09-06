@@ -99,7 +99,7 @@ export default function Home() {
           </div>
           <div className="space-y-5 text-lg leading-8 text-muted-foreground">
             <p>
-              Quantum Beauty Group is a team of licensed professionals who believe education should evolve as quickly as the beauty industry does.
+              Quantum Beauty Group is a team of licensed instructors who believe education should evolve as quickly as the beauty industry does.
             </p>
             <p>
               We turn research, experience, and real salon challenges into learning that fits your life—in person, virtually, and through BlendIQ.
