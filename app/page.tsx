@@ -173,7 +173,7 @@ export default function Home() {
       </section>
 
       <section id="blend-iq" className="qbg-section scroll-mt-24 overflow-hidden">
-        <div className="qbg-container grid items-center gap-12 lg:grid-cols-2">
+        <div className="qbg-container mx-auto grid items-center gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
           <div>
             <Badge variant="outline">
               Pre-release
@@ -200,7 +200,19 @@ export default function Home() {
               </Button>
             </div>
           </div>
-          <div className="grid grid-cols-3 items-center gap-3 sm:gap-5" aria-label="BlendIQ product previews">{["header-finance.png", "header-scheduler.png", "header-vault.png"].map((image, index) => <Image key={image} src={`https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/blendiq/${image}`} alt={["Finance tracker", "Appointment scheduler", "Client vault"][index]} width={360} height={640} className={`rounded-2xl border border-border shadow-xl ${index === 1 ? "-translate-y-5" : ""}`} />)}</div>
+          <div className="mx-auto flex max-w-2xl items-center justify-center" aria-label="BlendIQ product previews">
+            {["header-finance.png", "header-scheduler.png", "header-vault.png"].map((image, index) => 
+              <Image
+                key={image}
+                src={`https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/blendiq/${image}`}
+                alt={["Finance tracker", "Appointment scheduler", "Client vault"][index]}
+                width={300}
+                height={640}
+                sizes="(min-width: 1024px) 24vw, 29vw"
+                className={`h-auto flex-1 ${index > 0 ? "-ml-8 sm:-ml-25" : ""} ${index === 1 ? "-translate-y-5" : ""}`}
+              />
+            )}
+          </div>
         </div>
       </section>
 
