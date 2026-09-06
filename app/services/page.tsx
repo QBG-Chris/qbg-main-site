@@ -207,7 +207,7 @@ export default function ServicesPage() {
                     Coming soon
                   </span>
                   <span className="text-xs text-primary-foreground/75">
-                    Video learning is on the way
+                    Video learning is on the way!
                   </span>
                 </div>
                 <div className="flex items-start justify-between gap-5">
