@@ -64,7 +64,7 @@ export async function POST(req: Request) {
         font_family: "default",
         logo: {
           type: "url",
-          url: "https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/logos/QBG_Logo.png",
+          url: `${origin}/icon0.svg`,
         },
       },
 

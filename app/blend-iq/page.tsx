@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Check, Smartphone } from "lucide-react";
@@ -6,9 +5,14 @@ import FeatureShowcaseCard from "@/components/blendiq/feature_showcase";
 import ClientSmsConfiguration from "@/components/blendiq/sms_configuration";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import image from "next/image";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "BlendIQ", description: "Simple salon business software built with independent beauty professionals in mind." };
+export const metadata = createPageMetadata({
+  title: "BlendIQ Salon Business Software",
+  description:
+    "Simplify booking, client notes, formulas, finances, inventory, and reminders with salon software designed for independent beauty professionals.",
+  path: "/blend-iq",
+});
 const platforms = [["apple_logo.png", "Apple"], ["android_logo.png", "Android"], ["windows_logo.png", "Windows"], ["chrome_logo.png", "Web"], ["macOS_logo.png", "macOS"]] as const;
 
 export default function BlendIqPage() {

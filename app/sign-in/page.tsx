@@ -54,7 +54,7 @@ export default function SignInPage() {
   return (
     <main className="qbg-section min-h-[75vh]">
       <Card className="mx-auto max-w-xl border-primary/10 bg-card/90 shadow-xl shadow-primary/5">
-        <CardHeader className="items-center text-center"><Image src="https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/logos/QBG_Logo.png" alt="" width={96} height={96} className="size-24 object-contain" /><CardTitle className="text-3xl">Welcome to QBG</CardTitle><CardDescription>{activeTab === "signin" ? "Sign in to manage your account." : "Create your Quantum Beauty Group account."}</CardDescription></CardHeader>
+        <CardHeader className="items-center text-center"><Image src="/icon0.svg" alt="" width={96} height={96} className="size-24 object-contain" /><CardTitle className="text-3xl">Welcome to QBG</CardTitle><CardDescription>{activeTab === "signin" ? "Sign in to manage your account." : "Create your Quantum Beauty Group account."}</CardDescription></CardHeader>
         <CardContent>
           <div className="mb-6 grid grid-cols-2 rounded-xl bg-muted p-1"><Button type="button" variant={activeTab === "signin" ? "default" : "ghost"} onClick={() => switchTab("signin")}>Sign in</Button><Button type="button" variant={activeTab === "signup" ? "default" : "ghost"} onClick={() => switchTab("signup")}>Create account</Button></div>
           {!configured && <p role="alert" className="mb-5 rounded-xl bg-destructive/10 p-4 text-sm text-destructive">Account access is temporarily unavailable. Please try again later.</p>}

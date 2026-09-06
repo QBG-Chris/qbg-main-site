@@ -1,6 +1,12 @@
 import ContactForm from "@/components/team/contact_form";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata = { title: "Contact", description: "Contact Quantum Beauty Group about classes, BlendIQ, or partnerships." };
+export const metadata = createPageMetadata({
+  title: "Contact",
+  description:
+    "Contact Quantum Beauty Group about beauty education classes, curriculum support, BlendIQ, or partnership opportunities.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

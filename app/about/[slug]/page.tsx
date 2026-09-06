@@ -5,8 +5,35 @@ import { ArrowLeft, Check } from "lucide-react";
 import { getTeamMember, team } from "@/components/team/team";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { createPageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() { return team.map((member) => ({ slug: member.slug })); }
+export const dynamicParams = false;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const member = getTeamMember(slug);
+
+  if (!member) {
+    return createPageMetadata({
+      title: "Team Member Not Found",
+      description: "The requested Quantum Beauty Group team profile could not be found.",
+      path: `/about/${slug}`,
+      noIndex: true,
+    });
+  }
+
+  return createPageMetadata({
+    title: `${member.name}, ${member.title}`,
+    description: `Meet ${member.name}, ${member.title} at Quantum Beauty Group, and learn about ${member.education.slice(0, 2).join(" and ").toLowerCase() || "their role on the team"}.`,
+    path: `/about/${member.slug}`,
+    noIndex: member.bio.trim().length < 80,
+  });
+}
 
 export default async function TeamMemberPage({
   params,

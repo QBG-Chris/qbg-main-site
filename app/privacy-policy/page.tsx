@@ -1,4 +1,12 @@
 import { Card, CardContent} from "@/components/ui/card";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Privacy Policy",
+  description:
+    "Learn how Quantum Beauty Group collects, uses, shares, and protects information across its website, services, and BlendIQ application.",
+  path: "/privacy-policy",
+});
 
 export default function PrivacyPolicy() {
   return (

@@ -1,4 +1,12 @@
 import Stripe from "stripe";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Payment Confirmation",
+  description: "BlendIQ payment confirmation.",
+  path: "/blend-iq/success",
+  noIndex: true,
+});
 
 export default async function SuccessPage({
   searchParams,

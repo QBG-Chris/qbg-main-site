@@ -1,11 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BriefcaseBusiness, GraduationCap, Scissors, Sparkles, WandSparkles } from "lucide-react";
+import { ArrowRight, BriefcaseBusiness, GraduationCap, Scissors, Sparkles } from "lucide-react";
 import BookAClassSelector from "@/components/home/BookAClass";
 import VideoBanner from "@/components/home/VideoHeader";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Beauty Education & Salon Tools",
+  description:
+    "Practical beauty education, professional development, and salon technology for beauty professionals, educators, schools, and apprentices.",
+  path: "/",
+});
 
 const focusAreas = [
   { href: "/beauty-schools",

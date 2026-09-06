@@ -1,4 +1,12 @@
 import BetaTestForm from "@/components/team/beta_test";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Apply for BlendIQ Beta Access",
+  description:
+    "Apply to beta test BlendIQ salon business software and help shape tools built for independent beauty professionals.",
+  path: "/blend-iq/get-beta-access",
+});
 
 export default function GetBetaAccessPage() {
     return (

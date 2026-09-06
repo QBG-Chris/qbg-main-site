@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowDown,
@@ -16,12 +15,14 @@ import {
   Video,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Education & Program Development Services",
   description:
     "Explore custom and on-demand beauty education, plus curriculum and program development for beauty schools and apprenticeship programs.",
-};
+  path: "/services",
+});
 
 const liveLearningFeatures = [
   {

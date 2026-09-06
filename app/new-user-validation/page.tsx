@@ -1,3 +1,12 @@
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Account Confirmed",
+  description: "Quantum Beauty Group account confirmation.",
+  path: "/new-user-validation",
+  noIndex: true,
+});
+
 export default function NewUserValidationPage() {
   return (
     <div className="min-h-[50vh] flex flex-col items-center justify-center bg-zinc-50 dark:bg-black">

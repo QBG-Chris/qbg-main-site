@@ -10,7 +10,7 @@ export default function Footer() {
     <footer className="border-t border-border bg-card/70">
       <div className="qbg-container grid gap-10 py-14 md:grid-cols-[1.5fr_1fr_1fr]">
         <div className="max-w-md">
-          <Link href="/" className="inline-flex items-center gap-3"><Image src="https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/logos/QBG_Logo.png" alt="" width={48} height={48} className="size-12 object-contain" /><span className="font-bold">Quantum Beauty Group</span></Link>
+          <Link href="/" className="inline-flex items-center gap-3"><Image src="/icon0.svg" alt="" width={48} height={48} className="size-12 object-contain" /><span className="font-bold">Quantum Beauty Group</span></Link>
           <p className="mt-4 text-sm leading-6 text-muted-foreground">Education in motion—practical learning and thoughtful technology for beauty professionals who want to work smarter.</p>
           <div className="mt-5 flex gap-2"><Button asChild variant="outline" size="icon"><a href="mailto:support@quantumbeautygroup.com" aria-label="Email Quantum Beauty Group"><Mail /></a></Button><Button asChild variant="outline" size="icon"><a href="https://www.instagram.com/quantumbeautygroup" target="_blank" rel="noreferrer" aria-label="Quantum Beauty Group on Instagram"><Instagram /></a></Button></div>
         </div>

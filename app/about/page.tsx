@@ -1,5 +1,13 @@
 import TeamCard from "@/components/team/team_card";
 import { team } from "@/components/team/team";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "About Our Beauty Education Team",
+  description:
+    "Meet the licensed educators and technical team behind Quantum Beauty Group's modern beauty education and salon technology.",
+  path: "/about",
+});
 
 const teamSections = ["Beauty Ambassadors", "Technical Operations"];
 

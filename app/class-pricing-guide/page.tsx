@@ -1,4 +1,12 @@
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Beauty Class Pricing Guide",
+  description:
+    "Compare virtual and private in-person beauty education rates, materials, and travel pricing for schools, salons, teams, and professionals.",
+  path: "/class-pricing-guide",
+});
 
 const virtualClasses = [
   {
@@ -141,8 +149,27 @@ function PriceCard({
 }
 
 export default function PricingPage() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
   return (
     <main className="min-h-screen bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c"),
+        }}
+      />
       <section className="relative overflow-hidden border-b border-zinc-200 dark:border-zinc-900">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(236,72,153,0.15),transparent_35%),radial-gradient(circle_at_bottom,rgba(244,114,182,0.1),transparent_30%)]" />
         <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
@@ -220,7 +247,7 @@ export default function PricingPage() {
                     Local travel
                 </p>
                 <p className="mt-1">
-                    Travel within 30 miles of Evanville, IN is included for all class bookings.
+                    Travel within 30 miles of Evansville, IN is included for all class bookings.
                 </p>
               </div>
               <div>
@@ -241,7 +268,7 @@ export default function PricingPage() {
                     </p>
                 </div>
                 <p className="mt-1">
-                    Fly-in classes are priced dependant on airfare. All details will be outlined on your pre-confirmation invoice.
+                    Fly-in classes are priced dependent on airfare. All details will be outlined on your pre-confirmation invoice.
                 </p>
               </div>
             </div>
@@ -266,7 +293,7 @@ export default function PricingPage() {
         <SectionHeading
           eyebrow="FAQ"
           title="Common Questions"
-          description="Clairfying answers to our most commonly asked questions..."
+          description="Clarifying answers to our most commonly asked questions."
         />
 
         <div className="grid gap-6 md:grid-cols-2">
