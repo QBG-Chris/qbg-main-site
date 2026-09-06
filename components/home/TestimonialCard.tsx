@@ -14,7 +14,7 @@ function TestimonialCard({
   return (
     <Card className="w-85 border border-zinc-200 dark:border-zinc-800">
         <CardContent className="py-2">
-            "{member.message}"
+            &ldquo;{member.message}&rdquo;
         </CardContent>
         <CardFooter className="flex items-center justify-end gap-2 px-8">
             <Image

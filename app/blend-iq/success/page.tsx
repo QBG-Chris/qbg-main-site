@@ -1,7 +1,5 @@
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
 export default async function SuccessPage({
   searchParams,
 }: {
@@ -20,6 +18,10 @@ export default async function SuccessPage({
     );
   }
 
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return <main className="qbg-section"><div className="qbg-container text-center"><h1 className="text-3xl font-bold">Checkout confirmation is unavailable</h1><p className="mt-3 text-muted-foreground">Please contact support if your payment completed.</p></div></main>;
+  }
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   const session = await stripe.checkout.sessions.retrieve(session_id, {
     expand: ["subscription", "customer"],
   });

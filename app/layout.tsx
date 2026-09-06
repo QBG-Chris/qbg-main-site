@@ -1,53 +1,53 @@
+import type { Metadata } from "next";
 import Navigation from "@/components/navigation";
-import "./globals.css";
-import { cn } from "@/lib/utils";
-import { Inter, Geist } from "next/font/google";
 import Footer from "@/components/footer/footer";
-import { ThemeProvider } from "@/components/theme/theme-provider"
-import Banner from "@/components/banner/banner";
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
-import { TooltipProvider } from "@/components/ui/tooltip"
+import { ThemeProvider } from "@/components/theme/theme-provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import "./globals.css";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata = {
-  title: "Quantum Beauty Group",
-  description: "Quantum Beauty Group, a beauty education company dedicated to empowering beauty professionals with innovative learning experiences.",
+export const metadata: Metadata = {
+  title: { default: "Quantum Beauty Group", template: "%s | Quantum Beauty Group" },
+  description: "Modern education, practical business tools, and technology built for beauty professionals.",
+  applicationName: "Quantum Beauty Group",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://quantumbeautygroup.com"),
+  openGraph: {
+    type: "website",
+    title: "Quantum Beauty Group",
+    description: "Education in motion for beauty professionals.",
+    siteName: "Quantum Beauty Group",
+    images: [{ url: "/icon0.svg", width: 1200, height: 630, alt: "Quantum Beauty Group — Education in motion." }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Quantum Beauty Group",
+    description: "Education in motion for beauty professionals.",
+    images: ["/icon0.svg"],
+  },
   icons: {
-    icon: [
-      { url: "/icon0.png", sizes: "32x32", type: "image/png" },
-      { url: "/icon1.png", sizes: "16x16", type: "image/png" },
-    ],
+    icon: [{ url: "/favicon.ico" }, { url: "/icon1.png", type: "image/png" }],
     apple: "/apple-icon.png",
   },
   manifest: "/manifest.json",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
-      <body className={inter.className}>
-        <TooltipProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-          >
-            <Banner />
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+      <body>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <TooltipProvider>
+            <a href="#main-content" className="fixed left-4 top-3 z-[100] -translate-y-20 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-lg transition-transform focus:translate-y-0">
+              Skip to content
+            </a>
             <Navigation />
-            {children}
+            <div id="main-content">{children}</div>
             <Footer />
-          </ThemeProvider>
+          </TooltipProvider>
           <Analytics />
           <SpeedInsights />
-        </TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -3,15 +3,17 @@ import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
 import createServerClient from "@/app/supabase/server";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getServices() {
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!stripeKey || !supabaseUrl || !serviceKey) throw new Error("Billing services are not configured.");
+  return { stripe: new Stripe(stripeKey), supabase: createClient(supabaseUrl, serviceKey) };
+}
 
 export async function POST(req: Request) {
   try {
+    const { stripe, supabase } = getServices();
     const authClient = await createServerClient();
     const { data: { user: authUser } } = await authClient.auth.getUser();
 
@@ -20,7 +22,7 @@ export async function POST(req: Request) {
     }
 
     const { data: subscription, error: dbError } = await supabase
-      .from("Subscriptions")
+      .from("subscriptions")
       .select("stripe_customer_id")
       .eq("user_id", authUser.id)
       .single();

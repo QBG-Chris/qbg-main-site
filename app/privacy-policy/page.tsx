@@ -2,16 +2,16 @@ import { Card, CardContent} from "@/components/ui/card";
 
 export default function PrivacyPolicy() {
   return (
-    <main className="mx-auto px-8 py-12">
-        <h1 className="text-5xl font-bold mb-4 text-black dark:text-zinc-50 text-center">
+    <main className="qbg-section mx-auto max-w-5xl px-5 sm:px-8">
+        <h1 className="mb-4 text-center text-5xl font-bold tracking-tight">
             Privacy Policy
         </h1>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-8 text-center">
+        <p className="mb-8 text-center text-sm text-muted-foreground">
             Last updated: March 2026
         </p>
-        <Card className="bg-zinc-100 dark:bg-zinc-900">
-            <CardContent className="flex items-center justify-center">
-                <div className="mt-6 mb-6 flex flex-col max-w-full text-center justify-center">
+        <Card className="bg-card/90 shadow-sm">
+            <CardContent className="p-6 sm:p-10">
+                <article className="prose prose-zinc max-w-none space-y-4 text-left leading-7 text-muted-foreground [&_h2]:pt-6 [&_h2]:text-left [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_h3]:pt-4 [&_h3]:text-left [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-foreground [&_li]:ml-5">
                     <p>
                         Quantum Beauty Group (“we,” “us,” or “our”) respects your privacy and is
                         committed to protecting the personal information you share with us
@@ -255,7 +255,7 @@ export default function PrivacyPolicy() {
 
                     <p>
                         To exercise applicable privacy rights, contact us at{" "}
-                        <a href={`mailto: support@quantumbeautygroup.com`}>support@quantumbeautygroup.com</a>.
+                        <a className="text-primary hover:underline" href="mailto:support@quantumbeautygroup.com">support@quantumbeautygroup.com</a>.
                     </p>
 
                     <h2 className="mt-6 text-3xl font-bold text-center">
@@ -302,9 +302,9 @@ export default function PrivacyPolicy() {
                     <p>
                         <strong>Quantum Beauty Group</strong>
                         <br />
-                        <a href={`mailto: support@quantumbeautygroup.com`}>support@quantumbeautygroup.com</a>
+                        <a className="text-primary hover:underline" href="mailto:support@quantumbeautygroup.com">support@quantumbeautygroup.com</a>
                     </p>
-                </div>
+                </article>
             </CardContent>
         </Card>
     </main>

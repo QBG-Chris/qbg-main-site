@@ -1,49 +1,23 @@
-const Footer = () => {
+import Image from "next/image";
+import Link from "next/link";
+import { Instagram, Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+const explore = [["About", "/about"], ["BlendIQ", "/blend-iq"], ["Our Services", "/services"], ["Contact", "/contact"]] as const;
+
+export default function Footer() {
   return (
-    <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black">
-      <div className="mx-auto max-w-6xl px-6 py-12 grid gap-10 md:grid-cols-3">
-        
-        {/* Brand */}
-        <div>
-          <h3 className="text-lg font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-            Quantum Beauty Group
-          </h3>
-          <p className="mt-3 text-sm text-zinc-700 dark:text-zinc-400">
-            Evolving beauty education through innovation, technology, and elevated artistry.
-          </p>
+    <footer className="border-t border-border bg-card/70">
+      <div className="qbg-container grid gap-10 py-14 md:grid-cols-[1.5fr_1fr_1fr]">
+        <div className="max-w-md">
+          <Link href="/" className="inline-flex items-center gap-3"><Image src="https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/logos/QBG_Logo.png" alt="" width={48} height={48} className="size-12 object-contain" /><span className="font-bold">Quantum Beauty Group</span></Link>
+          <p className="mt-4 text-sm leading-6 text-muted-foreground">Education in motion—practical learning and thoughtful technology for beauty professionals who want to work smarter.</p>
+          <div className="mt-5 flex gap-2"><Button asChild variant="outline" size="icon"><a href="mailto:support@quantumbeautygroup.com" aria-label="Email Quantum Beauty Group"><Mail /></a></Button><Button asChild variant="outline" size="icon"><a href="https://www.instagram.com/quantumbeautygroup" target="_blank" rel="noreferrer" aria-label="Quantum Beauty Group on Instagram"><Instagram /></a></Button></div>
         </div>
-
-        {/* Navigation */}
-        <div>
-          <h4 className="text-sm font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-200">
-            Explore
-          </h4>
-          <ul className="mt-4 space-y-2 text-sm text-zinc-700 dark:text-zinc-200">
-            <li><a href="/about" className="hover:text-pink-500 transition">About</a></li>
-            <li><a href="/blend-iq" className="hover:text-pink-500 transition">BlendIQ</a></li>
-            <li><a href="/supply-house" className="hover:text-pink-500 transition">Supply House</a></li>
-            <li><a href="/contact" className="hover:text-pink-500 transition">Contact</a></li>
-          </ul>
-        </div>
-
-        {/* Legal */}
-        <div>
-          <h4 className="text-sm font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-200">
-            Legal
-          </h4>
-          <ul className="mt-4 space-y-2 text-sm text-zinc-700 dark:text-zinc-200">
-            <li><a href="/privacy-policy" className="hover:text-pink-500 transition">Privacy Policy</a></li>
-            <li><a href="/terms" className="hover:text-pink-500 transition">Terms of Service</a></li>
-          </ul>
-        </div>
-
+        <div><h2 className="text-sm font-bold uppercase tracking-[0.18em]">Explore</h2><ul className="mt-4 space-y-3 text-sm text-muted-foreground">{explore.map(([label, href]) => <li key={href}><Link href={href} className="transition-colors hover:text-primary">{label}</Link></li>)}</ul></div>
+        <div><h2 className="text-sm font-bold uppercase tracking-[0.18em]">Legal</h2><ul className="mt-4 space-y-3 text-sm text-muted-foreground"><li><Link href="/privacy-policy" className="transition-colors hover:text-primary">Privacy Policy</Link></li></ul></div>
       </div>
-
-      <div className="border-t border-zinc-200 dark:border-zinc-800 py-6 text-center text-sm text-zinc-700 dark:text-zinc-200">
-        © {new Date().getFullYear()} Quantum Beauty Group. All rights reserved.
-      </div>
+      <div className="border-t border-border py-6 text-center text-xs text-muted-foreground">© {new Date().getFullYear()} Quantum Beauty Group. All rights reserved.</div>
     </footer>
   );
-};
-
-export default Footer;
+}

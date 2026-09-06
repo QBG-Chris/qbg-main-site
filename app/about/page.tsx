@@ -5,15 +5,9 @@ const teamSections = ["Beauty Ambassadors", "Technical Operations"];
 
 export default function About() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black relative z-0">
-      <main className="relative w-full max-w-5xl px-6 py-16 z-0">
-        <h1 className="text-center text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-          Meet your team.
-        </h1>
-
-        <p className="mt-3 text-center max-w-2xl mx-auto text-zinc-600 dark:text-zinc-400">
-          A small crew with big energy.<br />Here to guide you through the ever changing world of beauty education; helping you work smarter and live better.
-        </p>
+    <main className="qbg-section min-h-screen">
+      <div className="qbg-container">
+        <div className="mx-auto max-w-3xl text-center"><p className="qbg-eyebrow">The people behind QBG</p><h1 className="mt-4 text-5xl font-bold tracking-tight sm:text-6xl">Meet your team.</h1><p className="mt-5 text-lg leading-8 text-muted-foreground">A small crew with big energy, here to help you navigate an ever-changing industry, work smarter, and keep your craft at the center.</p></div>
 
         {teamSections.map((section) => {
           const members = team.filter((member) => member.team === section);
@@ -21,10 +15,10 @@ export default function About() {
           return (
             <div
               key={section}
-              className="text-center mt-20 mb-30 font-bold text-3xl text-zinc-900 dark:text-zinc-50"
+              className="mt-20 text-center"
             >
-              <h1>{section}</h1>
-              <div className="mt-10 mb-20 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-3 relative z-0">
+              <h2 className="text-2xl font-bold">{section}</h2>
+              <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {members.map((member, i) => {
                   const offsetClass = i % 3 === 1 ? "sm:translate-y-12" : "";
                   return (
@@ -39,7 +33,7 @@ export default function About() {
             </div>
           );
         })}
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

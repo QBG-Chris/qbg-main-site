@@ -1,135 +1,128 @@
-import FeatureShowcaseCard from "@/components/blendiq/feature_showcase";
-import ClientSmsConfiguration from "@/components/blendiq/sms_configuration";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight, Check, Smartphone } from "lucide-react";
+import FeatureShowcaseCard from "@/components/blendiq/feature_showcase";
+import ClientSmsConfiguration from "@/components/blendiq/sms_configuration";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import image from "next/image";
 
-export default function Home() {
+export const metadata: Metadata = { title: "BlendIQ", description: "Simple salon business software built with independent beauty professionals in mind." };
+const platforms = [["apple_logo.png", "Apple"], ["android_logo.png", "Android"], ["windows_logo.png", "Windows"], ["chrome_logo.png", "Web"], ["macOS_logo.png", "macOS"]] as const;
+
+export default function BlendIqPage() {
   return (
-    <div className="min-h-screen bg-zinc-50 font-sans dark:bg-zinc-900 relative z-0">
-      {/* BlendIQ Section */}
-      <section className="w-full bg-zinc-50 dark:bg-zinc-900 py-24 relative overflow-hidden">
-
-        {/* Content */}
-        <div className="relative z-10">
-          <div style={{ textAlign: "center" }}>
-            <div className="text-center leading-none">
-              <p className="mb-4 text-[0.75rem] font-semibold tracking-wide text-black dark:text-zinc-50 uppercase">
-                Introducing
-              </p>
-
-              <div style={{ textAlign: "center" }}>
-                <span className="gradient-text" style={{ "--text-size": "4rem" } as React.CSSProperties}>
-                  BLEND IQ
-                </span>
-              </div>
-
-              <h2 className="text-1xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 mt-0">
-                PRE-RELEASE
-              </h2>
-
-              <div className="mt-16 mb-20 flex justify-center items-center md:-space-x-25 sm:-space-x-10" aria-hidden="true">
-                <div className="w-full max-w-35 sm:max-w-45 md:max-w-80 z-10">
-                  <Image
-                    src="https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/blendiq/header-finance.png"
-                    alt="Finance tracker preview"
-                    width={450}
-                    height={400}
-                    className="w-full h-auto rounded-lg object-cover"
-                  />
-                </div>
-                <div className="w-full max-w-35 sm:max-w-45 md:max-w-80 z-15">
-                  <Image
-                    src="https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/blendiq/header-scheduler.png"
-                    alt="Scheduler preview"
-                    width={450}
-                    height={400}
-                    className="w-full h-auto rounded-lg object-cover"
-                  />
-                </div>
-                <div className="w-full max-w-35 sm:max-w-45 md:max-w-80 z-10">
-                  <Image
-                    src="https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/blendiq/header-vault.png"
-                    alt="Client vault preview"
-                    width={450}
-                    height={400}
-                    className="w-full h-auto rounded-lg object-cover"
-                  />
-                </div>
-              </div>
-
-              <h1 className="text-center mb-18 text-[2rem] md:text-[3rem] font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-                Built for solo & commission<br/>beauty professionals
-              </h1>
-
-              <FeatureShowcaseCard />
-
-              <h1 className="mt-24 text-center mb-12 text-[2rem] md:text-[3rem] font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-                Unlimited SMS reminders<br/>for your clients
-              </h1>
-              <div className="flex justify-center mb-8">
-                <ClientSmsConfiguration
-                  appointmentCreationEnabled={true}
-                  remindersEnabled={true}
-                  reminderLeadDays={3}
-                />
-              </div>
-
-              <h1 className="mt-24 text-center mb-24 text-[3rem] md:text-[6rem] font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-                ... $16.99/month
-              </h1>
-
-              <h1 className="mt-18 text-center text-[2rem] md:text-[4rem] font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-                Available Soon On
-              </h1>
-
-              <div className="mt-16 mb-20 flex justify-center gap-8" aria-hidden="true">
-                <Image
-                  src="https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/blendiq/apple_logo.png"
-                  alt="Apple logo"
-                  width={50}
-                  height={50}
-                  className="rounded-lg"
-                />
-                <Image
-                  src="https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/blendiq/android_logo.png"
-                  alt="Android logo"
-                  width={50}
-                  height={50}
-                  className="rounded-lg"
-                />
-                <Image
-                  src="https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/blendiq/windows_logo.png"
-                  alt="Windows logo"
-                  width={50}
-                  height={50}
-                  className="rounded-lg"
-                />
-                <Image
-                  src="https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/blendiq/chrome_logo.png"
-                  alt="Chrome logo"
-                  width={50}
-                  height={50}
-                  className="rounded-lg"
-                />
-                <Image
-                  src="https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/blendiq/macOS_logo.png"
-                  alt="macOS logo"
-                  width={50}
-                  height={50}
-                  className="rounded-lg"
-                />
-              </div>
-              
-              <Link
-                href="/blend-iq/get-beta-access"
-                className="gradient-button uppercase"
-              >
-                Apply For Beta Access
-              </Link>
+    <main>
+      <section className="qbg-section overflow-hidden">
+        <div className="flex flex-col lg:flex-row items-center justify-center">
+          <div className="flex flex-col items-center text-center">
+            <Badge variant="secondary">
+              Now accepting beta applications
+            </Badge>
+            <p className="qbg-gradient-text mt-6 text-6xl font-black tracking-[-0.07em] sm:text-8xl">
+              BLEND IQ
+            </p>
+            <h1 className="mx-auto mt-6 max-w-4xl text-balance text-4xl font-bold tracking-tight sm:text-6xl">
+              The business side of beauty, finally simplified.
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-muted-foreground px-6">
+              Built for solo and commission beauty professionals who want capable tools without the clutter, surprise fees, or desk-job learning curve.
+            </p>
+            <div className="mt-9 flex flex-wrap justify-center gap-3">
+              <Button asChild size="lg">
+                <Link href="/blend-iq/get-beta-access">
+                  Apply for beta access 
+                  <ArrowRight />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <a href="#features">Explore features</a>
+              </Button>
             </div>
           </div>
+          <Image 
+            src={`https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/blendiq/header-vault.png`}
+            alt=""
+            width={450}
+            height={700}
+            className="mt-16"
+          />
         </div>
       </section>
-    </div>
+
+      <section 
+        id="features" 
+        className="qbg-section scroll-mt-24 border-y border-border bg-card/60">
+        <div className="qbg-container">
+          <div className="mx-auto mb-12 max-w-2xl text-center">
+            <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+              Built for solo & commission beauty professionals
+            </h2>
+            <p className="mt-5 text-lg text-muted-foreground">
+              Move between the parts of your business without moving between a dozen apps.
+            </p>
+          </div>
+          <FeatureShowcaseCard />
+        </div>
+      </section>
+
+      <section className="qbg-section">
+        <div className="qbg-container flex flex-col items-center gap-12">
+          <div>
+            <span className="flex size-12 items-center justify-center rounded-2xl bg-secondary text-primary">
+              <Smartphone />
+            </span>
+            <h2 className="mt-5 text-4xl font-bold tracking-tight">
+              Client reminders without counting every text.
+            </h2>
+            <p className="mt-5 text-lg leading-8 text-muted-foreground">
+              Keep clients in the loop with configurable appointment messages and unlimited SMS reminders included with Pro.
+            </p>
+            <ul className="mt-6 space-y-3 text-sm">
+              {["Appointment-created confirmations", "Flexible reminder timing", "Clear client communication"].map((item) =>
+                <li key={item} className="flex items-center gap-3">
+                  <Check className="size-4 text-primary" />{item}
+                </li>
+              )}
+            </ul>
+          </div>
+          <ClientSmsConfiguration appointmentCreationEnabled remindersEnabled reminderLeadDays={3} />
+        </div>
+      </section>
+
+      <section className="qbg-section border-t border-border bg-zinc-900 text-white">
+        <div className="qbg-container text-center">
+          <p className="text-sm font-bold uppercase tracking-[0.22em] text-primary">
+            BlendIQ Pro
+          </p>
+          <h2 className="mt-4 text-5xl font-bold">
+            $14.99 <span className="text-xl font-normal opacity-70">/ month</span>
+          </h2>
+          <p className="mx-auto mt-5 max-w-xl text-lg opacity-75">
+            All core tools, unlimited storage, and unlimited SMS notifications in one straightforward membership.
+          </p>
+          <div className="mt-8 flex justify-center gap-4">
+            {platforms.map(([image, label]) =>
+              <Image
+                key={image}
+                src={`https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/blendiq/${image}`}
+                alt={label}
+                width={44}
+                height={44}
+                className="size-10 object-contain"
+              />
+            )}
+          </div>
+          <Button asChild size="lg" className="mt-9">
+            <Link href="/blend-iq/get-beta-access">
+              Apply for beta access
+              <ArrowRight
+              />
+            </Link>
+          </Button>
+        </div>
+      </section>
+    </main>
   );
 }

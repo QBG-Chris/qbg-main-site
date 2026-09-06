@@ -3,14 +3,16 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getServices() {
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!stripeKey || !supabaseUrl || !serviceKey) throw new Error("Webhook services are not configured.");
+  return { stripe: new Stripe(stripeKey), supabase: createClient(supabaseUrl, serviceKey) };
+}
 
 export async function POST(req: Request) {
+  const { stripe, supabase } = getServices();
   const body = await req.text();
   const signature = (await headers()).get("stripe-signature");
 
@@ -24,7 +26,7 @@ export async function POST(req: Request) {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      process.env.STRIPE_WEBHOOK_SECRET ?? ""
     );
   } catch (err) {
     console.error("Webhook signature verification failed:", err);
@@ -69,9 +71,9 @@ export async function POST(req: Request) {
               stripe_subscription_id: subscription.id,
               stripe_price_id: item?.price?.id ?? null,
               status: subscription.status,
-              current_period_end: new Date(
-                (subscription as any).current_period_end * 1000
-              ).toISOString(),
+              current_period_end: item?.current_period_end
+                ? new Date(item.current_period_end * 1000).toISOString()
+                : null,
             },
             {
               onConflict: "stripe_subscription_id",
@@ -97,9 +99,9 @@ export async function POST(req: Request) {
           .update({
             status: subscription.status,
             stripe_price_id: item?.price?.id ?? null,
-            current_period_end: new Date(
-              (subscription as any).current_period_end * 1000
-            ).toISOString(),
+            current_period_end: item?.current_period_end
+              ? new Date(item.current_period_end * 1000).toISOString()
+              : null,
           })
           .eq("stripe_subscription_id", subscription.id);
 

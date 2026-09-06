@@ -1,40 +1,10 @@
-import { Card, CardContent } from "@/components/ui/card";
-import Link from "next/link";
-import { MdOutlineAttachMoney } from "react-icons/md";
-import { TbPasswordUser } from "react-icons/tb";
+import type { Metadata } from "next";
+import { CreditCard } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+export const metadata: Metadata = { title: "Account" };
 
 export default function UserAccountPage() {
-    return (
-        <div className="min-h-[50vh] flex flex-col items-center justify-center bg-white dark:bg-black">
-            <h1 className="text-3xl font-semibold text-center text-zinc-900 dark:text-zinc-50">
-                User Account
-            </h1>
-
-            <div className="mx-auto text-zinc-600 dark:text-zinc-400">
-                <div className="mt-4 text-center text-zinc-600 dark:text-zinc-400">
-                    This page is under construction.
-                </div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-16 mt-12">
-                <form method="POST" action="/api/stripe/customer-portal">
-                    <button type="submit">
-                        <Card className="border border-zinc-200 dark:border-zinc-800 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 transition px-8">
-                            <CardContent>
-                                <div className="flex flex-row gap-1 items-center justify-center">
-                                    <MdOutlineAttachMoney 
-                                        size={24}
-                                        color="grey"
-                                    />
-                                    <h2 className="text-[1rem] text-center font-semibold">
-                                        Manage Subscriptions
-                                    </h2>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </button>
-                </form>
-            </div>
-        </div>
-    );
+  return <main className="qbg-section min-h-[70vh]"><div className="mx-auto max-w-3xl px-5 sm:px-8"><div className="text-center"><p className="qbg-eyebrow">Your QBG account</p><h1 className="mt-4 text-4xl font-bold">Account</h1><p className="mt-3 text-muted-foreground">Manage your active BlendIQ billing details.</p></div><Card className="mt-10"><CardHeader><span className="mb-2 flex size-11 items-center justify-center rounded-xl bg-secondary text-primary"><CreditCard /></span><CardTitle>Subscription and billing</CardTitle><CardDescription>Open the secure billing portal to update payment details, view invoices, or manage your plan.</CardDescription></CardHeader><CardContent><form method="POST" action="/api/stripe/customer-portal"><Button type="submit" size="lg">Manage subscription</Button></form></CardContent></Card></div></main>;
 }

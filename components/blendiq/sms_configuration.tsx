@@ -29,16 +29,18 @@ export default function ClientSmsConfiguration({
         </div>
 
         <div className="mb-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900/60">
-          <div className="rounded-xl bg-white p-2 text-sm text-zinc-600 shadow-sm dark:bg-zinc-950 dark:text-zinc-400">
-            <div className="flex items-center justify-center gap-2">
-              <CircleUser />
-              <p className="font-medium text-zinc-950 dark:text-white">
-                Doe, Jane
+          <div className="rounded-lg bg-white p-2 text-sm text-zinc-600 shadow-sm dark:bg-zinc-950 dark:text-zinc-400">
+            <div className="flex flex-col items-center">
+              <div className="flex items-center justify-center gap-2">
+                <CircleUser />
+                <p className="font-medium text-zinc-950 dark:text-white">
+                  Doe, Jane
+                </p>
+              </div>
+              <p className="mt-1">
+                +1(123)456-7890
               </p>
             </div>
-            <p className="mt-1">
-              +1(123)456-7890
-            </p>
           </div>
         </div>
 

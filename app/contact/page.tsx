@@ -1,15 +1,12 @@
 import ContactForm from "@/components/team/contact_form";
 
+export const metadata = { title: "Contact", description: "Contact Quantum Beauty Group about classes, BlendIQ, or partnerships." };
+
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-zinc-50 dark:bg-black">
-      <section className="mx-auto max-w-3xl px-6 py-16">
-        <h1 className="text-3xl text-center font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-          Contact Us
-        </h1>
-        <p className="mt-3 text-center text-zinc-600 dark:text-zinc-400">
-          Send us a message and we’ll get back to you as soon as we can.
-        </p>
+    <main className="qbg-section min-h-[70vh]">
+      <section className="mx-auto max-w-3xl px-5 sm:px-8">
+        <div className="text-center"><p className="qbg-eyebrow">Start a conversation</p><h1 className="mt-4 text-5xl font-bold tracking-tight">Contact us</h1><p className="mx-auto mt-5 max-w-xl text-lg leading-8 text-muted-foreground">Questions about a class, BlendIQ, or a collaboration? Tell us what you’re thinking and we’ll get back to you soon.</p></div>
         <ContactForm />
       </section>
     </main>

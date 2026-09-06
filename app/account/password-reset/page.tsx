@@ -1,24 +1,14 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  {
-    auth: { flowType: "implicit" },
-  }
-);
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
@@ -26,6 +16,8 @@ export default function ResetPasswordPage() {
   const [messageClass, setMessageClass] = useState<"" | "qbg-success" | "qbg-error">("");
   const [isReady, setIsReady] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
+  const configured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  const supabase = useMemo(() => configured ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, { auth: { flowType: "implicit" } }) : null, [configured]);
 
   const updateMessage = (
     text: string,
@@ -38,6 +30,7 @@ export default function ResetPasswordPage() {
   useEffect(() => {
     async function initFromHash() {
       try {
+        if (!supabase) throw new Error("Password reset is temporarily unavailable.");
         const hash = window.location.hash.startsWith("#")
           ? window.location.hash.slice(1)
           : "";
@@ -76,10 +69,11 @@ export default function ResetPasswordPage() {
     }
 
     initFromHash();
-  }, []);
+  }, [supabase]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!supabase) return;
     updateMessage("");
 
     const pw = password.trim();

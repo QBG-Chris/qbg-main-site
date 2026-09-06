@@ -1,12 +1,18 @@
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
+import createServerClient from "@/app/supabase/server";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-});
+const getStripe = () => {
+  if (!process.env.STRIPE_SECRET_KEY) throw new Error("Stripe is not configured.");
+  return new Stripe(process.env.STRIPE_SECRET_KEY);
+};
 
 export async function POST(req: Request) {
   try {
-    const { lookupKey, user } = await req.json();
+    const authClient = await createServerClient();
+    const { data: { user }, error: authError } = await authClient.auth.getUser();
+    if (authError || !user) return NextResponse.json({ error: "Please sign in to subscribe." }, { status: 401 });
+    const { lookupKey } = await req.json();
 
     if (!lookupKey) {
       return NextResponse.json(
@@ -15,6 +21,7 @@ export async function POST(req: Request) {
       );
     }
 
+    const stripe = getStripe();
     const prices = await stripe.prices.list({
       lookup_keys: [lookupKey],
       expand: ["data.product"],
@@ -29,17 +36,17 @@ export async function POST(req: Request) {
       );
     }
 
-    const origin = req.headers.get("origin") ?? "http://localhost:3000";
+    const origin = process.env.NEXT_PUBLIC_SITE_URL ?? new URL(req.url).origin;
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
-      client_reference_id: user,
+      client_reference_id: user.id,
       line_items: [
         {
           price: price.id,
           quantity: 1,
         },
       ],
-      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${origin}/blend-iq/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/blend-iq/go-pro`,
       billing_address_collection: "required",
       phone_number_collection: { enabled: true },

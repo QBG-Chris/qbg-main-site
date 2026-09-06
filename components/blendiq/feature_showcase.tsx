@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   CalendarCheck,
   ContactRound,
@@ -186,9 +187,11 @@ export default function FeatureShowcaseCard() {
         <div className="grid gap-8 p-6 md:grid-cols-[0.6fr_1fr] md:p-8">
           <div className="flex justify-center">
             <div className="flex items-center justify-center h-full w-full rounded-[1.8rem] bg-zinc-100 dark:bg-zinc-900">
-                <img
+                <Image
                     src={activeFeature.imageSrc}
                     alt={`${activeFeature.title} app screen`}
+                    width={420}
+                    height={840}
                     className="h-auto w-[50%] md:w-[80%]"
                 />
             </div>

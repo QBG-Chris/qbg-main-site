@@ -40,9 +40,9 @@ export default function BetaTestForm() {
       setStatus("success");
       setMessage("Thanks! Your message has been sent.");
       form.reset();
-    } catch (err: any) {
+    } catch (err: unknown) {
       setStatus("error");
-      setMessage(err?.message || "Something went wrong. Please try again.");
+      setMessage(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     }
   }
 
@@ -100,7 +100,7 @@ export default function BetaTestForm() {
         </div>
 
         <div className="mx-auto flex justify-center" aria-hidden="true">
-            <div className="h-1.5 w-sm rounded-full bg-linear-to-r from-pink-500 via-red-500 to-yellow-500" />
+            <div className="h-1.5 w-sm rounded-full bg-linear-to-r from-pink-400 via-red-400 to-yellow-500" />
         </div>
 
         {/*Address Section*/}

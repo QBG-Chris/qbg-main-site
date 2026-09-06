@@ -29,15 +29,6 @@ const privateTrainings = [
 },
 ];
 
-const addons = [
-  "Custom workbook or digital class guide",
-  "Mannequin or materials package",
-  "Branded certificate or completion materials",
-  "Extended Q+A or coaching session",
-  "Additional attendee fee above included headcount",
-  "CE/admin support where applicable",
-];
-
 const faqs = [
   {
     question: "Is travel included in the class price?",

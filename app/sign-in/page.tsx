@@ -2,10 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, FormEvent, useEffect } from "react";
-import createClient from "@/app/supabase/client";
+import { type FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTheme } from "next-themes"
+import { LoaderCircle } from "lucide-react";
+import createClient from "@/app/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function SignInPage() {
   const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
@@ -13,265 +17,60 @@ export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [notice, setNotice] = useState<{ text: string; success?: boolean } | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
+  const configured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  const supabase = useMemo(() => configured ? createClient() : null, [configured]);
 
-  const handleSignIn = async (e: FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  function switchTab(tab: "signin" | "signup") { setActiveTab(tab); setNotice(null); setPassword(""); setConfirmPassword(""); }
 
+  async function handleSignIn(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!supabase) return;
+    setNotice(null); setLoading(true);
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
+      router.push("/account"); router.refresh();
+    } catch (error) { setNotice({ text: error instanceof Error ? error.message : "Failed to sign in." }); }
+    finally { setLoading(false); }
+  }
 
-      router.push("/");
-      router.refresh();
-    } catch (err: any) {
-      setError(err.message || "Failed to sign in");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
-  const lightSrc = "https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/logos/LogoxIconLight.png";
-  const darkSrc = "https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/logos/LogoxIcon.png";
-  const src = !mounted ? lightSrc : (theme === "light" ? lightSrc : darkSrc);
-
-  const handleSignUp = async (e: FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    setLoading(true);
-
+  async function handleSignUp(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!supabase) return;
+    if (password !== confirmPassword) { setNotice({ text: "Passwords do not match." }); return; }
+    if (password.length < 8) { setNotice({ text: "Use at least 8 characters for your password." }); return; }
+    setNotice(null); setLoading(true);
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: fullName,
-          },
-        },
-      });
-
+      const { error } = await supabase.auth.signUp({ email, password, options: { data: { full_name: fullName } } });
       if (error) throw error;
-
-      setError("Check your email to confirm your account!");
-    } catch (err: any) {
-      setError(err.message || "Failed to sign up");
-    } finally {
-      setLoading(false);
-    }
-  };
+      setNotice({ text: "Check your email to confirm your account.", success: true });
+    } catch (error) { setNotice({ text: error instanceof Error ? error.message : "Failed to create your account." }); }
+    finally { setLoading(false); }
+  }
 
   return (
-    <section className="mx-auto max-w-2xl px-6 py-16">
-      <div className="space-y-5 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-        <Image
-          src={src}
-          alt="QBG Logo"
-          width={350}
-          height={350}
-          className="mx-auto"
-        />
-
-        {/* Tabs */}
-        <div className="flex border-b border-zinc-200 dark:border-zinc-800">
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab("signin");
-              setError("");
-              setPassword("");
-              setConfirmPassword("");
-            }}
-            className={`flex-1 py-3 text-sm font-medium transition-colors ${
-              activeTab === "signin"
-                ? "border-b-2 border-pink-500 text-pink-500"
-                : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
-            }`}
-          >
-            Sign In
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab("signup");
-              setError("");
-              setPassword("");
-              setConfirmPassword("");
-            }}
-            className={`flex-1 py-3 text-sm font-medium transition-colors ${
-              activeTab === "signup"
-                ? "border-b-2 border-pink-500 text-pink-500"
-                : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
-            }`}
-          >
-            Sign Up
-          </button>
-        </div>
-
-        {/* Sign In Form */}
-        {activeTab === "signin" && (
-          <form onSubmit={handleSignIn} className="space-y-5">
-            <h1 className="text-3xl text-center font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-              Sign In
-            </h1>
-            <p className="mt-3 text-center text-zinc-600 dark:text-zinc-400">
-              Welcome back to Quantum Beauty Group!
-            </p>
-
-            {error && (
-              <div className="rounded-lg bg-red-50 dark:bg-red-900/20 p-3 text-sm text-red-600 dark:text-red-400">
-                {error}
-              </div>
-            )}
-
-            <div className="space-y-5">
-              <div>
-                <label className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
-                  Email
-                </label>
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="mt-2 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:ring-2 focus:ring-pink-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
-                  Password
-                </label>
-                <input
-                  name="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="mt-2 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:ring-2 focus:ring-pink-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
-                />
-              </div>
-
-              <div className="text-center">
-                <Link href="/forgot-password" className="text-sm text-pink-500 hover:underline">
-                  Forgot Password?
-                </Link>
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full rounded-lg bg-pink-500 px-4 py-2 text-sm font-medium text-white hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {loading ? "Signing In..." : "Sign In"}
-              </button>
-            </div>
+    <main className="qbg-section min-h-[75vh]">
+      <Card className="mx-auto max-w-xl border-primary/10 bg-card/90 shadow-xl shadow-primary/5">
+        <CardHeader className="items-center text-center"><Image src="https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/logos/QBG_Logo.png" alt="" width={96} height={96} className="size-24 object-contain" /><CardTitle className="text-3xl">Welcome to QBG</CardTitle><CardDescription>{activeTab === "signin" ? "Sign in to manage your account." : "Create your Quantum Beauty Group account."}</CardDescription></CardHeader>
+        <CardContent>
+          <div className="mb-6 grid grid-cols-2 rounded-xl bg-muted p-1"><Button type="button" variant={activeTab === "signin" ? "default" : "ghost"} onClick={() => switchTab("signin")}>Sign in</Button><Button type="button" variant={activeTab === "signup" ? "default" : "ghost"} onClick={() => switchTab("signup")}>Create account</Button></div>
+          {!configured && <p role="alert" className="mb-5 rounded-xl bg-destructive/10 p-4 text-sm text-destructive">Account access is temporarily unavailable. Please try again later.</p>}
+          <form onSubmit={activeTab === "signin" ? handleSignIn : handleSignUp} className="space-y-5">
+            {activeTab === "signup" && <Field id="full-name" label="Full name"><Input id="full-name" name="fullName" autoComplete="name" value={fullName} onChange={(event) => setFullName(event.target.value)} required /></Field>}
+            <Field id="email" label="Email"><Input id="email" name="email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} required /></Field>
+            <Field id="password" label="Password"><Input id="password" name="password" type="password" autoComplete={activeTab === "signin" ? "current-password" : "new-password"} value={password} onChange={(event) => setPassword(event.target.value)} required /></Field>
+            {activeTab === "signup" && <Field id="confirm-password" label="Confirm password"><Input id="confirm-password" name="confirmPassword" type="password" autoComplete="new-password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} required /></Field>}
+            {activeTab === "signin" && <div className="text-right"><Link href="/account/password-reset" className="text-sm font-medium text-primary hover:underline">Reset password</Link></div>}
+            {notice && <p role="status" className={notice.success ? "rounded-xl bg-emerald-500/10 p-3 text-sm text-emerald-600" : "rounded-xl bg-destructive/10 p-3 text-sm text-destructive"}>{notice.text}</p>}
+            <Button type="submit" size="lg" className="w-full" disabled={!configured || loading}>{loading && <LoaderCircle className="animate-spin" />}{loading ? "Please wait…" : activeTab === "signin" ? "Sign in" : "Create account"}</Button>
           </form>
-        )}
-
-        {/* Sign Up Form */}
-        {activeTab === "signup" && (
-          <form onSubmit={handleSignUp} className="space-y-5">
-            <h1 className="text-3xl text-center font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-              Sign Up
-            </h1>
-            <p className="mt-3 text-center text-zinc-600 dark:text-zinc-400">
-              Join Quantum Beauty Group today!
-            </p>
-
-            {error && (
-              <div className={`rounded-lg p-3 text-sm ${
-                error.includes("Check your email") 
-                  ? "bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400"
-                  : "bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400"
-              }`}>
-                {error}
-              </div>
-            )}
-
-            <div className="space-y-5">
-              <div>
-                <label className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
-                  Full Name
-                </label>
-                <input
-                  name="fullName"
-                  type="text"
-                  required
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  className="mt-2 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:ring-2 focus:ring-pink-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
-                  Email
-                </label>
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="mt-2 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:ring-2 focus:ring-pink-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
-                  Password
-                </label>
-                <input
-                  name="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="mt-2 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:ring-2 focus:ring-pink-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
-                  Confirm Password
-                </label>
-                <input
-                  name="confirmPassword"
-                  type="password"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="mt-2 mb-6 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:ring-2 focus:ring-pink-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full rounded-lg bg-pink-500 px-4 py-2 text-sm font-medium text-white hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {loading ? "Signing Up..." : "Sign Up"}
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
-    </section>
+        </CardContent>
+      </Card>
+    </main>
   );
 }
+
+function Field({ id, label, children }: { id: string; label: string; children: React.ReactNode }) { return <div className="space-y-2"><Label htmlFor={id}>{label}</Label>{children}</div>; }

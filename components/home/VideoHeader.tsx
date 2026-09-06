@@ -4,8 +4,8 @@ import MuxPlayer from "@mux/mux-player-react";
 
 export default function VideoBanner() {
   return (
-    <section className="border-y border-zinc-200 dark:border-zinc-900 w-full bg-zinc-900 dark:bg-zinc-950">
-      <div className="relative w-full overflow-hidden" style={{ paddingBottom: "25%" }}>
+    <div className="qbg-container">
+      <div className="relative aspect-[16/7] w-full overflow-hidden rounded-3xl bg-muted shadow-xl">
         <MuxPlayer
           playbackId="gB2bKs6WV8dbU2AKlmzzSDkTtLNtf7UB4jVQrNqKMAA"
           autoPlay="muted"
@@ -25,6 +25,6 @@ export default function VideoBanner() {
           }
         />
       </div>
-    </section>
+    </div>
   );
 }

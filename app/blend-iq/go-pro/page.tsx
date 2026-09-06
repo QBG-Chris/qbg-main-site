@@ -1,101 +1,41 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
+import type { User } from "@supabase/supabase-js";
+import { Check, LoaderCircle } from "lucide-react";
 import createClient from "@/app/supabase/client";
-import { useEffect, useState } from "react";
-import router from "next/router";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+const features = ["Client vault", "Appointment book", "Finance tracker", "Backbar Butler", "Online booking", "Level calculator", "Formula selector", "Unlimited storage", "Unlimited SMS notifications"];
 
 export default function CheckoutPage() {
-  const [user, setUser] = useState<any | null>(null);
-    const supabase = createClient();
-  
-    useEffect(() => {
-      supabase.auth.getUser().then(({ data }) => setUser(data?.user ?? null));
-      const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-        setUser(session?.user ?? null);
-      });
-      return () => sub?.subscription?.unsubscribe?.();
-    }, []);
-  
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(false);
+  const configured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  const supabase = useMemo(() => configured ? createClient() : null, [configured]);
+
+  useEffect(() => {
+    if (!supabase) return;
+    void supabase.auth.getUser().then(({ data }) => setUser(data.user ?? null));
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => setUser(session?.user ?? null));
+    return () => listener.subscription.unsubscribe();
+  }, [supabase]);
+
   async function handleCheckout() {
-    if (!user) {
-      window.location.href = "/sign-in";
-      return;
-    }
-    const res = await fetch("/api/checkout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        lookupKey: "pro_monthly",
-        user: user?.id,
-      }),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      console.error(data);
-      alert(data.error || "Something went wrong.");
-      return;
-    }
-
-    window.location.href = data.url;
+    if (!user) { window.location.href = "/sign-in"; return; }
+    setLoading(true);
+    try {
+      const response = await fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ lookupKey: "pro_monthly" }) });
+      const data: { error?: string; url?: string } = await response.json();
+      if (!response.ok || !data.url) throw new Error(data.error ?? "Unable to begin checkout.");
+      window.location.href = data.url;
+    } catch (error) { window.alert(error instanceof Error ? error.message : "Unable to begin checkout."); setLoading(false); }
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-black text-white">
-      <div className="mt-12 mb-12 max-w-lg w-full rounded-2xl border border-white/10 bg-white/5 p-8">
-        <h1 className="text-3xl text-center font-bold mb-6">
-          BlendIQ{" "}
-          <span className="gradient-text" style={{ "--text-size": "2rem" } as React.CSSProperties}>
-            PRO
-          </span>
-        </h1>
-        <div className="border-t mb-6 border-gray-200" />
-        <div className="flex flex-row items-center mb-12 justify-center">
-          <div className="relative inline-block">
-            <div className="absolute -bottom-4 left-2/5 z-10 -translate-x-1/2 rounded-full border border-black bg-linear-to-r from-yellow-600 to-yellow-500 px-3 py-1 text-xs font-bold tracking-[0.2em] text-white shadow-md">
-              PRO
-            </div>
-
-            <Image
-              src="https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/logos/logo.png"
-              alt="BlendIQ PRO Preview"
-              width={75}
-              height={400}
-              className="rounded-lg mt-4 mr-6"
-            />
-          </div>
-          <p className="text-zinc-200 text-3xl font-bold mt-2 ml-6">
-            $14.99/month
-          </p>
-        </div>
-        <div className="border-t mb-8 border-gray-200" />
-        <div className="flex flex-col md:flex-row items-center mb-8 gap-6 md:gap-12 justify-center">
-          <ul className="md:mb-8 w-fit mx-auto space-y-2 text-left text-md text-zinc-200">
-            <li>• Client Vault</li>
-            <li>• Appointment Book</li>
-            <li>• Finance Tracker</li>
-            <li>• Backbar Butler</li>
-            <li>• Online Booking</li>
-            <li>• Finance Tracker</li>
-            <li>• Level Calculator</li>
-            <li>• Formula Selector</li>
-          </ul>
-          <ul className="md:mb-8 w-fit mx-auto space-y-2 text-left text-md text-zinc-200">
-            <li>✅ Unlimited Storage</li>
-            <li>✅ Unlimited SMS Notifications</li>
-          </ul>
-        </div>
-
-        <button
-          onClick={() => (user ? handleCheckout() : window.location.href = "/sign-in")}
-          className="w-full rounded-full px-5 py-3 font-semibold bg-pink-500 hover:bg-pink-400 transition">
-          {user ? "Go Pro" : "Sign in to subscribe"}
-        </button>
-      </div>
-    </main>
+    <main className="qbg-section min-h-[75vh]"><Card className="mx-auto max-w-2xl border-primary/20 shadow-2xl shadow-primary/10"><CardHeader className="items-center text-center"><Image src="https://srsntfksbi7e9pli.public.blob.vercel-storage.com/images/logos/logo.png" alt="BlendIQ" width={84} height={84} className="size-20 object-contain" /><Badge>Pro</Badge><CardTitle className="text-4xl">Everything you need. Nothing you don’t.</CardTitle><p className="mt-3 text-3xl font-bold">$14.99 <span className="text-base font-normal text-muted-foreground">/ month</span></p></CardHeader><CardContent><ul className="grid gap-3 sm:grid-cols-2">{features.map((feature) => <li key={feature} className="flex items-center gap-3 rounded-xl bg-muted p-3 text-sm"><Check className="size-4 text-primary" />{feature}</li>)}</ul><Button size="lg" className="mt-8 w-full" disabled={loading || !configured} onClick={handleCheckout}>{loading && <LoaderCircle className="animate-spin" />}{loading ? "Opening checkout…" : user ? "Go Pro" : "Sign in to subscribe"}</Button></CardContent></Card></main>
   );
 }
