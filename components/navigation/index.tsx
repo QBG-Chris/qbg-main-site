@@ -33,7 +33,8 @@ export default function Navigation() {
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/88 backdrop-blur-xl supports-[backdrop-filter]:bg-background/75">
       <div className="qbg-container flex h-18 items-center justify-between gap-4">
         <Link href="/" aria-label="Quantum Beauty Group home" className="flex shrink-0 items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-          <Image src="/icon0.svg" alt="" width={52} height={52} className="size-12 object-contain" priority />
+          <Image src="/icon0.svg" alt="" width={52} height={52} className="size-12 object-contain dark:hidden" priority />
+          <Image src="/QBG_Logo_White.png" alt="" width={52} height={52} className="hidden size-12 object-contain dark:block" priority />
           <span className="hidden text-sm font-bold leading-tight tracking-tight sm:block">Quantum Beauty<br /><span className="text-primary">Group</span></span>
         </Link>
 
