@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Education & Program Development Services",
   description:
-    "Explore live and on-demand beauty education, plus curriculum and program development for beauty schools and apprenticeship programs.",
+    "Explore custom and on-demand beauty education, plus curriculum and program development for beauty schools and apprenticeship programs.",
 };
 
 const liveLearningFeatures = [
@@ -146,7 +146,7 @@ export default function ServicesPage() {
               </h2>
               <p className="mt-5 text-lg leading-8 text-muted-foreground">
                 Learning should be useful, approachable, and easy to carry into
-                the real world. Choose a shared live experience or learn at your
+                the real world. Choose a tailored in-person experience or learn at your
                 own pace through our video-based education.
               </p>
             </div>
